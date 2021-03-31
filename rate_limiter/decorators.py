@@ -4,9 +4,9 @@ from rest_framework.exceptions import APIException
 from .core import RateLimiter as RateLimiterService
 
 
-def rate_per_second(key, rate):
-    def _rate_per_second(function):
-        def __rate_per_second(*args, **kwargs):
+def rate_limiter(key, rate):
+    def _rate_limiter(function):
+        def __rate_limiter(*args, **kwargs):
             if getattr(
                 settings, "RATE_LIMITING_ENABLED"
             ):  # checks global settings for rate limiting
@@ -16,9 +16,9 @@ def rate_per_second(key, rate):
                     raise RateLimitExceeded
             return function(*args, *kwargs)
 
-        return __rate_per_second
+        return __rate_limiter
 
-    return _rate_per_second
+    return _rate_limiter
 
 
 class RateLimitExceeded(APIException):
