@@ -31,7 +31,7 @@ class RateLimiter:
             return request.META["REMOTE_ADDR"]  # return IP of the user
         elif "header" in key.lower():
             header_value = key.split(":")[1]
-            return request.META.get(header_value, "")
+            return request.META.get(f"HTTP_{header_value.replace('-','_')}", "")
         else:
             raise ValidationError(f"Invalid key supplied. {key}")
 
